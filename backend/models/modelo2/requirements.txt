@@ -1,0 +1,15 @@
+torch>=2.6
+transformers==4.34.0
+pandas
+scipy
+onnxruntime
+numpy>=1.25
+diskcache
+biopython
+rdkit>=2022.9.5
+scikit-learn
+requests
+tqdm
+pillow
+fastapi
+uvicorn

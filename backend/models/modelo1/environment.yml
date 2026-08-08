@@ -1,0 +1,31 @@
+name: modelo1
+channels:
+  - pytorch
+  - pyg
+  - defaults
+dependencies:
+  - python=3.8
+  - pip
+  - numpy=1.24.3
+  - scipy=1.9.3
+  - scikit-learn=1.3.0
+  - networkx=3.1
+  - sympy=1.13.3
+  - tqdm=4.66.5
+  - requests=2.32.3
+  - pyyaml=6.0.2
+  - jinja2=3.1.4
+  - joblib=1.4.2
+  - pytorch=1.12.1
+  - cudatoolkit=11.3
+  - pyg=2.5.2
+  - fsspec=2024.6.1
+  - psutil=5.9.0
+  - filelock=3.13.1
+  - uvicorn
+  - pip:
+      - pillow==10.4.0
+      - rdkit-pypi==2022.9.5
+      - fastapi==0.120.3
+      
+

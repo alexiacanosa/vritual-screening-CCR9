@@ -1,0 +1,5 @@
+deeppurpose
+fastapi
+uvicorn
+rdkit
+

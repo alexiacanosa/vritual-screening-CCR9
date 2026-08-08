@@ -1,0 +1,440 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='WolframDesktop 13.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       161,          7]
+NotebookDataLength[     19657,        432]
+NotebookOptionsPosition[     18408,        405]
+NotebookOutlinePosition[     18803,        421]
+CellTagsIndexPosition[     18760,        418]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+To get feature dataset, download our files from google drive, and put the \
+path to tensor_dataset100k.json below:\
+\>", "Text",
+ CellChangeTimes->{{3.91351791532269*^9, 3.9135179566020536`*^9}, {
+  3.9135180045871606`*^9, 
+  3.913518012089275*^9}},ExpressionUUID->"56e6bade-f9e6-4847-9e8d-\
+a91b559c90cb"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"dataRaw", " ", "=", " ", 
+  RowBox[{"Import", "[", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{
+     "$UserDocumentsDirectory", ",", " ", "\"\<WELP-PLAPT\>\"", ",", " ", 
+      "\"\<data\>\"", ",", " ", "\"\<tensor_dataset100k.json\>\""}], "}"}], 
+    "]"}], "]"}]}]], "Code",
+ CellChangeTimes->{
+  3.9135177768847523`*^9, {3.9135179855911765`*^9, 3.9135179866657343`*^9}, 
+   3.9344962283820543`*^9},
+ CellLabel->"In[1]:=",ExpressionUUID->"2969545c-c197-46b9-a7b4-f5f8c3476d06"],
+
+Cell[BoxData[
+ TemplateBox[<|"shortenedBoxes" -> TagBox[
+     RowBox[{"{", 
+       TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], "}"}], Short[#, 8]& ], 
+   "line" -> 1, "sessionID" -> 25406097469102475834, "byteCount" -> 
+   4415200080, "size" -> 8, "stored" -> False, "expr" -> Missing["NotStored"],
+    "wrap" -> OutputSizeLimit`Defer, "version" -> 1|>,
+  "OutputSizeLimitTemplate"]], "Output",
+ CellChangeTimes->{3.934496386162697*^9},
+ CellLabel->"Out[1]=",ExpressionUUID->"72ad87c7-84a9-4fd5-b8c0-f22be6242428"]
+}, Open  ]],
+
+Cell["Load other data and get it in the right format.", "Text",
+ CellChangeTimes->{{3.9135177831277466`*^9, 
+  3.9135177930247197`*^9}},ExpressionUUID->"650e8f09-a28c-4b3a-8ff5-\
+0be658471986"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"dataRaw", " ", "=", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Association", " ", "@@", " ", "#"}], " ", "&"}], " ", "/@", " ",
+     "dataRaw"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"data", " ", "=", " ", 
+   RowBox[{"Dataset", "[", "dataRaw", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"data", " ", "=", " ", 
+    RowBox[{"Dataset", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"Association", "[", 
+         RowBox[{
+          RowBox[{"\"\<affinity\>\"", "->", 
+           RowBox[{"#", "[", 
+            RowBox[{"[", "\"\<affinity\>\"", "]"}], "]"}]}], ",", " ", 
+          RowBox[{"\"\<concat_embeddings\>\"", " ", "->", " ", 
+           RowBox[{"Join", "[", 
+            RowBox[{
+             RowBox[{"#", "[", "\"\<prot_embeddings\>\"", "]"}], ",", " ", 
+             RowBox[{"#", "[", "\"\<mol_embeddings\>\"", "]"}]}], "]"}]}]}], 
+         "]"}], ")"}], " ", "&"}], " ", "/@", " ", "data"}], "]"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"scalingParams", " ", "=", "\n", "  ", 
+   RowBox[{"<|", 
+    RowBox[{
+     RowBox[{"\"\<mean\>\"", " ", "->", " ", "6.51286529169358"}], ",", "\n", 
+     "   ", 
+     RowBox[{"\"\<var\>\"", " ", "->", " ", "2.4379994951935378"}], ",", "\n",
+      "   ", 
+     RowBox[{"\"\<scale\>\"", " ", "->", " ", "1.5614094578916633"}]}], 
+    "|>"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Denormalize", "[", 
+    RowBox[{"normalizedAffinity_", ",", " ", 
+     RowBox[{"params_Association", ":", "scalingParams"}]}], "]"}], " ", ":=",
+    " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"normalizedAffinity", "*", 
+      RowBox[{"params", "[", "\"\<scale\>\"", "]"}]}], " ", "+", " ", 
+     RowBox[{"params", "[", "\"\<mean\>\"", "]"}]}], ")"}]}], ";"}]}], "Code",\
+
+ CellChangeTimes->{{3.9134037140272093`*^9, 3.9134037276691084`*^9}, {
+   3.9134038184644055`*^9, 3.9134038197289333`*^9}, {3.913404021391974*^9, 
+   3.913404039647859*^9}, 3.913430133681713*^9, {3.913431622670512*^9, 
+   3.9134316479822645`*^9}, {3.913431691531904*^9, 3.9134317178885727`*^9}, {
+   3.9134368292882843`*^9, 3.9134368345331*^9}, {3.9135177147493486`*^9, 
+   3.9135177373411055`*^9}, {3.9135177676725845`*^9, 3.913517773211213*^9}, {
+   3.9344962870725927`*^9, 3.934496288676106*^9}, 3.934498047191592*^9, 
+   3.934498696289192*^9},ExpressionUUID->"18e9cfd3-f61e-43b4-92e0-\
+1f37c964dd85"],
+
+Cell["End-to-end training and benchmarking function", "Text",
+ CellChangeTimes->{{3.9135177954116993`*^9, 
+  3.9135178299917927`*^9}},ExpressionUUID->"39769539-e2e0-47f3-b3da-\
+351b37d5c8ee"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TrainPLAPT", "[", 
+   RowBox[{"seed_Integer", ",", " ", 
+    RowBox[{"device_String", ":", "\"\<CPU\>\""}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", "\t", 
+   RowBox[{
+    RowBox[{"{", "\[IndentingNewLine]", "\t", 
+     RowBox[{
+     "train", ",", "\[IndentingNewLine]", "\t", "test", ",", 
+      "\[IndentingNewLine]", "\t", "trainInputs", ",", "\[IndentingNewLine]", 
+      "\t", "trainOutputs", ",", "\[IndentingNewLine]", "\t", "testInputs", 
+      ",", "\[IndentingNewLine]", "\t", "testOutputs", ",", 
+      "\[IndentingNewLine]", "\t", "\[IndentingNewLine]", "\t", "net", ",", 
+      "\[IndentingNewLine]", "\t", "trainedNet", ",", "\[IndentingNewLine]", 
+      "\t", "\[IndentingNewLine]", "\t", "predictedTest", ",", 
+      "\[IndentingNewLine]", "\t", "experimentalTest", ",", 
+      "\[IndentingNewLine]", "\t", "predictedTrain", ",", 
+      "\[IndentingNewLine]", "\t", "experimentalTrain", ",", 
+      "\[IndentingNewLine]", "\t", "\[IndentingNewLine]", "\t", "RTest", ",", 
+      "\[IndentingNewLine]", "\t", "RTrain", ",", "\[IndentingNewLine]", "\t",
+       "RTest2016290", ",", "\[IndentingNewLine]", "\t", "RCSARHiQ36", ",", 
+      "\[IndentingNewLine]", "\t", "RCSARHiQ51"}], "\[IndentingNewLine]", 
+     "\t", "}"}], ",", "\n", "\t", "\[IndentingNewLine]", "\t", 
+    RowBox[{
+     RowBox[{"SeedRandom", "[", "seed", "]"}], ";", "\n", "\t", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"train", "=", 
+      RowBox[{"RandomSample", "[", 
+       RowBox[{"data", ",", 
+        RowBox[{
+         RowBox[{"Length", "[", "data", "]"}], "*", "0.90"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"test", "=", 
+      RowBox[{"Complement", "[", 
+       RowBox[{"data", ",", "train"}], "]"}]}], ";", "\n", "\t", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"trainInputs", "=", 
+      RowBox[{"Normal", "@", 
+       RowBox[{"train", "[", 
+        RowBox[{"All", ",", "\"\<concat_embeddings\>\""}], "]"}]}]}], ";", 
+     RowBox[{"trainOutputs", "=", 
+      RowBox[{"List", "/@", 
+       RowBox[{"Normal", "@", 
+        RowBox[{"train", "[", 
+         RowBox[{"All", ",", "\"\<affinity\>\""}], "]"}]}]}]}], ";", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"testInputs", "=", 
+      RowBox[{"Normal", "@", 
+       RowBox[{"test", "[", 
+        RowBox[{"All", ",", "\"\<concat_embeddings\>\""}], "]"}]}]}], ";", 
+     RowBox[{"testOutputs", "=", 
+      RowBox[{"List", "/@", 
+       RowBox[{"Normal", "@", 
+        RowBox[{"test", "[", 
+         RowBox[{"All", ",", "\"\<affinity\>\""}], "]"}]}]}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", "\t", 
+     RowBox[{"net", " ", "=", " ", 
+      RowBox[{"NetGraph", "[", "\n", "      ", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"\"\<ProtOnly\>\"", " ", "->", " ", 
+           RowBox[{"PartLayer", "[", 
+            RowBox[{"1", " ", ";;", " ", "1024"}], "]"}]}], ",", "\n", 
+          "        ", 
+          RowBox[{"\"\<MolOnly\>\"", " ", "->", " ", 
+           RowBox[{"PartLayer", "[", 
+            RowBox[{"1025", " ", ";;", " ", "1792"}], "]"}]}], ",", "\n", 
+          "        ", 
+          RowBox[{"\"\<ProtLinear\>\"", " ", "->", " ", 
+           RowBox[{"LinearLayer", "[", "512", "]"}]}], ",", " ", 
+          RowBox[{"\"\<ProtRamp\>\"", " ", "->", " ", "Ramp"}], ",", "\n", 
+          "        ", 
+          RowBox[{"\"\<MolLinear\>\"", " ", "->", " ", 
+           RowBox[{"LinearLayer", "[", "512", "]"}]}], ",", " ", 
+          RowBox[{"\"\<MolRamp\>\"", " ", "->", " ", "Ramp"}], ",", "\n", 
+          "        ", 
+          RowBox[{"\"\<Combined\>\"", " ", "->", " ", 
+           RowBox[{"CatenateLayer", "[", "]"}]}], ",", " ", 
+          RowBox[{"\"\<Normalize\>\"", " ", "->", " ", 
+           RowBox[{"BatchNormalizationLayer", "[", "]"}]}], ",", "\n", 
+          "        ", 
+          RowBox[{"\"\<Linear1\>\"", " ", "->", " ", 
+           RowBox[{"LinearLayer", "[", "512", "]"}]}], ",", " ", 
+          RowBox[{"\"\<Ramp1\>\"", " ", "->", " ", "Ramp"}], ",", " ", 
+          RowBox[{"\"\<Dropout1\>\"", " ", "->", " ", 
+           RowBox[{"DropoutLayer", "[", "0.2", "]"}]}], ",", "\n", "        ", 
+          RowBox[{"\"\<Linear2\>\"", " ", "->", " ", 
+           RowBox[{"LinearLayer", "[", "64", "]"}]}], ",", " ", 
+          RowBox[{"\"\<Ramp2\>\"", " ", "->", " ", "Ramp"}], ",", "\n", 
+          "        ", 
+          RowBox[{"\"\<FinalLinear\>\"", " ", "->", " ", 
+           RowBox[{"LinearLayer", "[", "1", "]"}]}]}], "}"}], ",", "\n", 
+        "      ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"NetPort", "[", "\"\<Input\>\"", "]"}], " ", "->", " ", 
+           RowBox[{"\"\<ProtOnly\>\"", " ", "->", " ", 
+            RowBox[{
+            "\"\<ProtLinear\>\"", " ", "->", " ", "\"\<ProtRamp\>\""}]}]}], 
+          ",", "\n", "        ", 
+          RowBox[{
+           RowBox[{"NetPort", "[", "\"\<Input\>\"", "]"}], " ", "->", " ", 
+           RowBox[{"\"\<MolOnly\>\"", " ", "->", " ", 
+            RowBox[{
+            "\"\<MolLinear\>\"", " ", "->", " ", "\"\<MolRamp\>\""}]}]}], ",",
+           " ", "\n", "        ", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"\"\<ProtRamp\>\"", ",", " ", "\"\<MolRamp\>\""}], "}"}], 
+           " ", "->", " ", 
+           RowBox[{"\"\<Combined\>\"", " ", "->", " ", 
+            RowBox[{"\"\<Normalize\>\"", " ", "->", " ", 
+             RowBox[{"\"\<Linear1\>\"", " ", "->", " ", 
+              RowBox[{"\"\<Ramp1\>\"", " ", "->", " ", 
+               RowBox[{
+               "\"\<Dropout1\>\"", " ", "->", "\n", "              ", 
+                RowBox[{"\"\<Linear2\>\"", " ", "->", " ", 
+                 RowBox[{"\"\<Ramp2\>\"", " ", "->", " ", 
+                  RowBox[{"\"\<FinalLinear\>\"", " ", "->", " ", 
+                   RowBox[{
+                   "NetPort", "[", "\"\<Output\>\"", 
+                    "]"}]}]}]}]}]}]}]}]}]}]}], "}"}], ",", "\n", "       ", 
+        RowBox[{"\"\<Input\>\"", " ", "->", " ", "1792"}], ",", " ", 
+        RowBox[{"\"\<Output\>\"", " ", "->", " ", "\"\<Scalar\>\""}]}], "\n", 
+       "      ", "]"}]}], ";", "\[IndentingNewLine]", "\t", 
+     RowBox[{"net", " ", "=", " ", 
+      RowBox[{"NetInitialize", "[", "net", "]"}]}], ";", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"trainedNet", "=", 
+      RowBox[{"NetTrain", "[", "\n", "\t\t", 
+       RowBox[{"net", ",", "\n", "\t\t", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<Input\>\"", "->", "trainInputs"}], ",", 
+          RowBox[{"\"\<Output\>\"", "->", "trainOutputs"}]}], "|>"}], ",", 
+        "\n", "\t\t", 
+        RowBox[{"LossFunction", "->", 
+         RowBox[{"MeanSquaredLossLayer", "[", "]"}]}], ",", "\n", "\t\t", 
+        RowBox[{"BatchSize", "->", "256"}], ",", "\n", "\t\t", 
+        RowBox[{"MaxTrainingRounds", "->", "60"}], ",", "\[IndentingNewLine]",
+         "\t", 
+        RowBox[{"RandomSeeding", "->", "seed"}], ",", "\n", "\t\t", 
+        RowBox[{"ValidationSet", "->", 
+         RowBox[{"<|", 
+          RowBox[{
+           RowBox[{"\"\<Input\>\"", "->", "testInputs"}], ",", 
+           RowBox[{"\"\<Output\>\"", "->", "testOutputs"}]}], "|>"}]}], ",", 
+        "\n", "\t\t", 
+        RowBox[{"TrainingProgressReporting", "->", "\"\<Panel\>\""}], ",", 
+        "\n", "\t\t", 
+        RowBox[{"TargetDevice", "\[Rule]", "\"\<GPU\>\""}]}], "\n", "\t", 
+       "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", "\t", 
+     RowBox[{"predictedTest", "=", 
+      RowBox[{"Flatten", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Denormalize", "[", 
+          RowBox[{"#", ",", "scalingParams"}], "]"}], "&"}], "/@", 
+        RowBox[{"trainedNet", "[", "testInputs", "]"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"experimentalTest", "=", 
+      RowBox[{"Flatten", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Denormalize", "[", 
+          RowBox[{"#", ",", "scalingParams"}], "]"}], "&"}], "/@", 
+        "testOutputs"}], "]"}]}], ";", "\[IndentingNewLine]", "\t", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"predictedTrain", "=", 
+      RowBox[{"Flatten", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Denormalize", "[", 
+          RowBox[{"#", ",", "scalingParams"}], "]"}], "&"}], "/@", 
+        RowBox[{"trainedNet", "[", "trainInputs", "]"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"experimentalTrain", "=", 
+      RowBox[{"Flatten", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Denormalize", "[", 
+          RowBox[{"#", ",", "scalingParams"}], "]"}], "&"}], "/@", 
+        "trainOutputs"}], "]"}]}], ";", "\[IndentingNewLine]", "\t", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"RTest", "=", 
+      RowBox[{"Correlation", "[", 
+       RowBox[{"predictedTest", ",", "experimentalTest"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"RTrain", "=", 
+      RowBox[{"Correlation", "[", 
+       RowBox[{"predictedTrain", ",", "experimentalTrain"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\t", "\[IndentingNewLine]", "\t", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{
+         "$UserDocumentsDirectory", ",", "\"\<WELP-PLAPT\>\"", ",", 
+          "\"\<models\>\"", ",", "\"\<affinity_predictor.onnx\>\""}], "}"}], 
+        "]"}], ",", "trainedNet"}], "]"}], ";", "\[IndentingNewLine]", "\t", 
+     RowBox[{"seed", "->", 
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<RTest\>\"", "->", "RTest"}], ",", " ", 
+        RowBox[{"\"\<RTrain\>\"", "->", "RTrain"}]}], "|>"}]}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Code",
+ CellChangeTimes->{{3.913403688343856*^9, 3.9134037011649704`*^9}, {
+   3.913403741153164*^9, 3.9134039917973843`*^9}, {3.9134040689699974`*^9, 
+   3.9134040930917797`*^9}, {3.9134042791889195`*^9, 3.913404295998066*^9}, {
+   3.91340433379183*^9, 3.913404360232647*^9}, {3.913404414499752*^9, 
+   3.913404446310532*^9}, {3.913404486148507*^9, 3.913404488152256*^9}, {
+   3.9134045929681463`*^9, 3.9134045951771054`*^9}, {3.913404713806678*^9, 
+   3.913404713914078*^9}, {3.913404909207877*^9, 3.9134049093141313`*^9}, {
+   3.9134049683564153`*^9, 3.913404968500883*^9}, {3.913405079006065*^9, 
+   3.9134050791826277`*^9}, {3.913405284102479*^9, 3.913405293738344*^9}, {
+   3.913405355330637*^9, 3.913405355466041*^9}, {3.9134085202668247`*^9, 
+   3.9134085220941343`*^9}, {3.913415016407373*^9, 3.913415017766143*^9}, {
+   3.913430153058857*^9, 3.913430233650852*^9}, {3.91343062982975*^9, 
+   3.9134307449358807`*^9}, {3.91343081997123*^9, 3.913430824420255*^9}, 
+   3.913430883676479*^9, {3.9134310356618166`*^9, 3.9134310705985994`*^9}, {
+   3.913431129228567*^9, 3.913431179095589*^9}, {3.913431241143483*^9, 
+   3.9134312602956944`*^9}, {3.9134314591495423`*^9, 3.9134314704755754`*^9}, 
+   3.9134315596747723`*^9, {3.9134317435258665`*^9, 3.913431759471549*^9}, 
+   3.9134318019339123`*^9, 3.913432463520923*^9, {3.9134325109476533`*^9, 
+   3.913432551762709*^9}, {3.9134325907358613`*^9, 3.9134325910343323`*^9}, {
+   3.9134326672186127`*^9, 3.913432668462438*^9}, {3.913432891250758*^9, 
+   3.913432900888158*^9}, {3.9134330717923775`*^9, 3.9134331326852922`*^9}, 
+   3.9134332351763797`*^9, 3.9134333930917807`*^9, {3.9134335149205246`*^9, 
+   3.9134335201113567`*^9}, {3.913434512217679*^9, 3.91343451337744*^9}, {
+   3.9134368430976086`*^9, 3.9134368706783237`*^9}, {3.913437419576847*^9, 
+   3.913437438220229*^9}, 3.9134375382175555`*^9, {3.913437735120122*^9, 
+   3.9134377356042027`*^9}, 3.913437766588166*^9, {3.9134384462028375`*^9, 
+   3.9134384591618958`*^9}, {3.913439231465632*^9, 3.9134393152330976`*^9}, {
+   3.91343937848553*^9, 3.9134393875534034`*^9}, {3.9134394941284723`*^9, 
+   3.91343952245516*^9}, {3.9134397363300495`*^9, 3.9134397393577347`*^9}, {
+   3.9134398102973914`*^9, 3.9134398355137763`*^9}, {3.91343998516717*^9, 
+   3.9134399904986534`*^9}, {3.913517400051921*^9, 3.9135174202766123`*^9}, {
+   3.9135174673741198`*^9, 3.913517501953392*^9}, {3.93449633219141*^9, 
+   3.934496376116477*^9}, 3.9344976496731787`*^9, {3.934498023311221*^9, 
+   3.934498102061755*^9}, {3.934498705249745*^9, 3.934498758906069*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"68cb701b-960c-45bb-abdd-8dddbd0dc606"],
+
+Cell["\<\
+Outputs R (Pearsons correlation coefficient) values for test, train, \
+test2016_290, CSAR HiQ 36, and CSAR HiQ 51 datasets\
+\>", "Text",
+ CellChangeTimes->{{3.9135178461127214`*^9, 
+  3.9135179049837914`*^9}},ExpressionUUID->"af725184-d64d-418e-af82-\
+ac5f6b4b6aca"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"TrainPLAPT", "[", 
+  RowBox[{"2101", ",", "\"\<GPU\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.913437019160262*^9, 3.913437024376022*^9}, 
+   3.91343799212883*^9, 3.9134380449491844`*^9, {3.9135174479256525`*^9, 
+   3.9135174515320873`*^9}, {3.934498762768224*^9, 3.934498770526676*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"5d1a53c1-0835-42a1-b392-fe09a86ce742"],
+
+Cell[BoxData[
+ RowBox[{"2101", "\[Rule]", 
+  RowBox[{"\[LeftAssociation]", 
+   RowBox[{
+    RowBox[{"\<\"RTest\"\>", "\[Rule]", "0.6821684172680139`"}], ",", 
+    RowBox[{"\<\"RTrain\"\>", "\[Rule]", "0.8846352205903706`"}]}], 
+   "\[RightAssociation]"}]}]], "Output",
+ CellChangeTimes->{3.9134381226903205`*^9, 3.913438228955121*^9, 
+  3.913438583094203*^9, 3.913439466488468*^9, 3.913439655770928*^9, 
+  3.913439823773531*^9, 3.913439936943373*^9, 3.913517645562643*^9, 
+  3.9344981578091917`*^9},
+ CellLabel->"Out[8]=",ExpressionUUID->"1befdf2c-0f12-4f0f-8352-47012ff84d32"]
+}, Open  ]]
+},
+WindowSize->{1008, 714},
+WindowMargins->{{240.75, 191.25}, {Automatic, 35.25}},
+FrontEndVersion->"14.1 for Linux x86 (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"e85e40d9-9053-4028-bacd-a4c5287257f8"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[561, 20, 316, 7, 33, "Text",ExpressionUUID->"56e6bade-f9e6-4847-9e8d-a91b559c90cb"],
+Cell[CellGroupData[{
+Cell[902, 31, 524, 12, 52, "Code",ExpressionUUID->"2969545c-c197-46b9-a7b4-f5f8c3476d06"],
+Cell[1429, 45, 518, 9, 80, "Output",ExpressionUUID->"72ad87c7-84a9-4fd5-b8c0-f22be6242428"]
+}, Open  ]],
+Cell[1962, 57, 193, 3, 33, "Text",ExpressionUUID->"650e8f09-a28c-4b3a-8ff5-0be658471986"],
+Cell[2158, 62, 2401, 59, 208, "Code",ExpressionUUID->"18e9cfd3-f61e-43b4-92e0-1f37c964dd85"],
+Cell[4562, 123, 191, 3, 33, "Text",ExpressionUUID->"39769539-e2e0-47f3-b3da-351b37d5c8ee"],
+Cell[4756, 128, 12359, 243, 1458, "Code",ExpressionUUID->"68cb701b-960c-45bb-abdd-8dddbd0dc606"],
+Cell[17118, 373, 276, 6, 33, "Text",ExpressionUUID->"af725184-d64d-418e-af82-ac5f6b4b6aca"],
+Cell[CellGroupData[{
+Cell[17419, 383, 393, 6, 30, "Input",ExpressionUUID->"5d1a53c1-0835-42a1-b392-fe09a86ce742"],
+Cell[17815, 391, 577, 11, 36, "Output",ExpressionUUID->"1befdf2c-0f12-4f0f-8352-47012ff84d32"]
+}, Open  ]]
+}
+]
+*)
+

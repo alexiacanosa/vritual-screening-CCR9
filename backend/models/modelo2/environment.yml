@@ -1,0 +1,27 @@
+name: modelo2
+channels:
+channels:
+  - pytorch
+  - pyg
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pytorch>=1.13.1
+  - transformers
+  - pandas
+  - scipy
+  - numpy>=1.17
+  - biopython
+  - scikit-learn
+  - requests
+  - tqdm
+  - pillow
+  - libsqlite <=3.48.0
+  - pip:
+    - onnxruntime
+    - rdkit>=2023.9.4
+
+
+
+
