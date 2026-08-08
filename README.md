@@ -36,4 +36,8 @@ If you encounter errors, make sure that no other containers or applications are 
 
 Once all services are running, the web interface can be accessed at:
 
+<<<<<<< HEAD
 **http://localhost:8000**
+=======
+**http://localhost:8000**
+>>>>>>> 772a8b18ded36418289a2adfae921882d9e1bfd8
